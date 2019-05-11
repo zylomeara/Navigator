@@ -1,0 +1,91 @@
+# Python cache
+*.py[cod]
+__pycache__/
+
+
+# Virtual environments
+/venv*/
+/static/
+.vagrant/
+
+
+# Django specific
+
+## Django settings
+local_settings.py
+/backend/local_settings.py
+/backend/project/local_settings.py
+settings_local.py
+/backend/settings_local.py
+/backend/project/settings_local.py
+
+## Debug mode media files
+/backend/media/
+
+
+# Build directories
+
+## Frontend build dir
+/frontend/build/
+/frontend/dist/
+
+## Frontend ui-demo build dir
+/frontend/lib/ui/demo/build/
+
+## MkDocs build dir
+/site/
+
+## NPM packages
+/frontend/node_modules/
+
+
+# Testing tools
+
+## coverage
+backend/.coverage
+backend/htmlcov/
+
+
+# IDEs and editors
+
+## Universal editor configuration
+.editorconfig
+
+## Brackets
+.brackets.json
+
+## PyCharm
+.idea/
+
+## Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+## Visual Studio Code
+.vscode
+
+
+# File managers
+
+## Explorer (Windows)
+Thumbs.db
+
+## Dolphin (KDE)
+.directory
+
+
+# Logs and temporary files
+*.log
+*.pid
+
+
+# Web servers
+
+## Gunicorn
+gunicorn.log
+gunicorn.pid
+start_gunicorn.sh
+stop_gunicorn.sh
+status_gunicorn.sh
+
+/frontend/webpack-stats.json
