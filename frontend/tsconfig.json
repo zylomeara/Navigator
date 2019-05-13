@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "sourceMap": true,
+    "module": "ES6",
+    "jsx": "react",
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noErrorTruncation": true,
+    "skipLibCheck": true,
+    "target": "ES5",
+    "importHelpers": true,
+    "lib": ["es2017", "dom"]
+  }
+}

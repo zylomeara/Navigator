@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load staticfiles %}
+  <meta charset="utf-8" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Doc</title>
+{#  <title>{{ settings.TITLE }}</title>#}
+
+{#  <link#}
+{#    rel="stylesheet"#}
+{#    type="text/css"#}
+{#    href="{% static 'fonts/font-awesome/css/font-awesome.min.css' %}"#}
+{#  >#}
+{#  <link#}
+{#    rel="stylesheet"#}
+{#    type="text/css"#}
+{#    href="{% static 'fonts/index.css' %}"#}
+{#  >#}
+{#  <link#}
+{#    rel="stylesheet"#}
+{#    type="text/css"#}
+{#    href="{% static 'packages/core/build/vendor.css' %}"#}
+{#  >#}
+{#  <link#}
+{#    rel="stylesheet"#}
+{#    type="text/css"#}
+{#    href="{% static 'packages/core/build/bundle.css' %}"#}
+{#  >#}
+</head>
+<body>
+  <div id="app-root"></div>
+
+  <!-- Libs -->
+{#  <script src="{% static 'packages/core/build/vendor.js' %}"></script>#}
+  <!-- App -->
+  <script src="{% static 'dist/js/bundle.app.js' %}"></script>
+</body>
+</html>
