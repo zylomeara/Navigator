@@ -20,6 +20,6 @@ from . import views
 
 urlpatterns = [
     url('^admin/', admin.site.urls),
-    url(r'^login/', include('login.urls')),
+    url(r'^account/', include('login.urls')),
     url(r'^test/', views.IndexView.as_view()),
 ]

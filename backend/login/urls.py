@@ -1,8 +1,11 @@
+from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url, include
-
 from . import views
 
 urlpatterns = [
-    path('', views.index)
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('islog/', views.islog_view, name='islog'),
+    # path('login/', views.log),
+    # path('logout/', views.logout_view, name='logout'),
 ]

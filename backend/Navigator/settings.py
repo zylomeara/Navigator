@@ -94,9 +94,14 @@ DATABASES = {
     }
 }
 
-STATICFILES_DIRS = [
-    os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend/")
-]
+# STATICFILES_DIRS = (
+#     os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend/"),
+# )
+
+
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(BASE_DIR), 'frontend/'),
+)
 
 
 # Password validation

@@ -1,5 +1,6 @@
 const path = require('path'),
   webpack = require('webpack');
+const WebpackNotifierPlugin = require('webpack-notifier');
 
 function srcPath(subdir) {
   return path.join(__dirname, "src", subdir);
@@ -16,7 +17,8 @@ module.exports = {
     filename: 'js/[name].bundle.js'
   },
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'cheap-eval-source-map',
+  // devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
     alias: {
@@ -31,6 +33,10 @@ module.exports = {
         use: [
           {
             loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              onlyCompileBundledFiles: true,
+            },
           }
         ]
       },
@@ -45,9 +51,19 @@ module.exports = {
           },
           {
             loader: 'less-loader', // compiles Less to CSS
+            options: {
+              javascriptEnabled: true
+            }
           },
         ],
       },
     ],
   },
+  plugins: [
+    new WebpackNotifierPlugin({
+      title: 'webpack',
+      alwaysNotify: true,
+      // contentImage: abs('..', '..', 'assets', 'webpack.png'),
+    }),
+  ]
 };
