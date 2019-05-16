@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { Form, Icon, Input, Button, Checkbox, Modal, message, Alert } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Modal, message, Alert, Tabs } from 'antd';
 import axios from 'axios';
 import { getCookie } from "../ui/utils";
 import { useState } from "react";
+
+import Login from './Login';
+import Register from "./Register";
 
 interface Props {
   form: any;
@@ -12,43 +15,9 @@ interface Props {
 const Auth = (props: Props) => {
   const { getFieldDecorator } = props.form;
   let [isWrongUserCredentialsWasProvided, setIsWrongUserCredentialsWasProvided] = useState<boolean>(false);
-  let [loading, setLoading] = useState<boolean>();
+  let [tab, setTab] = useState<'auth' | 'register'>('auth');
   // let [error, setError] = useState<Error | undefined>();
 
-  function handleSubmit (e: any) {
-    e.preventDefault();
-    setLoading(true);
-    props.form.validateFields((err: Error, values: {username: string; password: string}) => {
-      if (!err) {
-        let csrftoken = getCookie('csrftoken');
-        console.log('Received values of form: ', values);
-        axios('/account/login/', {
-          data: values,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken || '',
-          },
-          method: "POST",
-        })
-          .then(res => {
-            console.log(res.headers.logged);
-            setLoading(false);
-            if (res.headers.logged === 'true') {
-              setIsWrongUserCredentialsWasProvided(false);
-              props.onStatusChange && props.onStatusChange(true);
-            } else {
-              setIsWrongUserCredentialsWasProvided(true)
-            }
-          })
-          .catch(error => {
-            setLoading(false);
-            message.error(error.message);
-            console.log(error);
-          })
-      }
-    });
-  }
 
   return (
     <Modal
@@ -57,8 +26,8 @@ const Auth = (props: Props) => {
       centered
       closable={false}
       cancelButtonProps={{ style: { display: 'none' } }}
-      onOk={handleSubmit}
-      okButtonProps={{ loading: loading }}
+      // onOk={handleSubmit}
+      okButtonProps={{ style: { display: 'none' } }}
       // footer={null}
       // footer={[
       //   <Button
@@ -67,53 +36,20 @@ const Auth = (props: Props) => {
       //   >Вход</Button>
       // ]}
     >
-      <Form className="login-form">
-        {/*<Form onSubmit={handleSubmit} className="login-form">*/}
-        {isWrongUserCredentialsWasProvided && (
-          <Alert
-            message="Пароль или имя пользователя не верны"
-            type="error"
-            style={{ marginBottom: 24 }}
+      <Tabs activeKey={tab} renderTabBar={() => <></>}>
+        <Tabs.TabPane key={'auth'}>
+          <Login
+            onStatusChange={props.onStatusChange}
+            switchMode={setTab}
           />
-        )}
+        </Tabs.TabPane>
+        <Tabs.TabPane key={'register'}>
+          <Register
+            switchMode={setTab}
+          />
+        </Tabs.TabPane>
+      </Tabs>
 
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
-              placeholder="Username"
-              onPressEnter={handleSubmit}
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
-              type="password"
-              placeholder="Password"
-              onPressEnter={handleSubmit}
-            />,
-          )}
-        </Form.Item>
-        {/*<Form.Item>*/}
-          {/*{getFieldDecorator('remember', {*/}
-          {/*  valuePropName: 'checked',*/}
-          {/*  initialValue: true,*/}
-          {/*})(<Checkbox>Remember me</Checkbox>)}*/}
-          {/*<a className="login-form-forgot" href="">*/}
-          {/*  Forgot password*/}
-          {/*</a>*/}
-          {/*<Button type="primary" htmlType="submit" className="login-form-button">*/}
-          {/*  Log in*/}
-          {/*</Button>*/}
-          {/*Or <a href="">register now!</a>*/}
-        {/*</Form.Item>*/}
-      </Form>
     </Modal>
     );
 };

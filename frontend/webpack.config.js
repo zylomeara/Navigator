@@ -25,6 +25,9 @@ module.exports = {
       app: srcPath('components'),
     }
   },
+  watchOptions: {
+    poll: true
+  },
   module: {
     rules: [
       {

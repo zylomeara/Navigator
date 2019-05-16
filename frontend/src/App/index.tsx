@@ -17,12 +17,12 @@ const App = () => {
   useEffect(() => {
     axios.get('/account/islog/')
       .then(res => {
-        if (res.headers.logged === 'true') {
+        if (res.data.logged === true) {
           setStatusLog(true)
         } else {
           setStatusLog(false)
         }
-        console.log(res.headers.logged);
+        console.log(res);
       })
       .catch(error => {
         setStatusLog(error);

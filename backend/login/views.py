@@ -3,11 +3,23 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 
+from .models import Admin, Manager, Courier
+from django.contrib.auth.models import User
+
+from rest_framework.viewsets import ModelViewSet
 # from MyProject.utils import encode_cookie
 
 
 
 # Create your views here.
+
+class UserView(ModelViewSet):
+    model = User
+    serializer_class = User
+    # filter_backends = (QueryFilterBackend,)
+    permission_classes = ()
+    queryset = User.objects.all()
+
 
 def login_view(request):
     body_unicode = request.body.decode('utf-8')
@@ -19,13 +31,16 @@ def login_view(request):
     print(username, password)
     user = authenticate(username=username, password=password)
     response = HttpResponse()
+    response['Access-Control-Allow-Origin'] = '*'
+    response['Content-Type'] = 'application/json'
+    response['charset'] = 'utf-8'
     # return HttpResponse('fine')
 
     if user is not None:
         if user.is_active:
             login(request, user)
             print('fine')
-            response['logged'] = 'true'
+            response.write(json.dumps({'logged': True}))
             response.set_cookie('username', user.username)
             # response.set_cookie('username', encode_cookie(user.username))
             response.set_cookie('first_name', user.first_name)
@@ -41,7 +56,7 @@ def login_view(request):
     else:
         pass
         print('not')
-        response['logged'] = 'false'
+        response.write(json.dumps({'logged': False}))
         response.delete_cookie('username')
         response.delete_cookie('first_name')
         response.delete_cookie('last_name')
@@ -70,15 +85,41 @@ def logout_view(request):
 def islog_view(request):
     user = request.user
     response = HttpResponse()
+    response['Access-Control-Allow-Origin'] = '*'
+    response['Content-Type'] = 'application/json'
+    response['charset'] = 'utf-8'
+    responseContent = {}
     if(user.is_authenticated):
-        response['logged'] = 'true'
+        responseContent['logged'] = True
+        response.write(json.dumps(responseContent))
         response.set_cookie('username', (user.username))
         response.set_cookie(
             'first_name', (user.first_name))
         response.set_cookie('last_name', (user.last_name))
     else:
-        response['logged'] = 'false'
+        responseContent['logged'] = False
+        response.write(json.dumps(responseContent))
         response.delete_cookie('username')
         response.delete_cookie('first_name')
         response.delete_cookie('last_name')
     return response
+
+
+def register_view(request):
+    response = HttpResponse()
+    response['Access-Control-Allow-Origin'] = '*'
+    response['Content-Type'] = 'application/json'
+    response['charset'] = 'utf-8'
+    responseContent = {}
+
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    position = body['position']
+
+    if position == 'manager':
+        pass
+    elif position == 'courier':
+        pass
+    else:
+        response.status_code = 404
+        return response
