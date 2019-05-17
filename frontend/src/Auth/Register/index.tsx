@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Alert, Button, Form, Icon, Input, InputNumber, message, Select } from "antd";
-import { getCookie } from "../../ui/utils";
+import { getCookie } from "../../UI/utils";
 import axios from "axios";
 import { useState } from "react";
 
@@ -34,8 +34,8 @@ const Register = (props: Props) => {
         })
           .then(res => {
             setLoading(false);
-
-
+            message.success(`Пользователь ${values.username} успешно зарегистрирован`);
+            props.switchMode('auth')
           })
           .catch(error => {
             setLoading(false);

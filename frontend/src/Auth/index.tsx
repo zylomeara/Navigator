@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Form, Icon, Input, Button, Checkbox, Modal, message, Alert, Tabs } from 'antd';
 import axios from 'axios';
-import { getCookie } from "../ui/utils";
+import { getCookie } from "../UI/utils";
 import { useState } from "react";
 
 import Login from './Login';

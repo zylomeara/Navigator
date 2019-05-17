@@ -9,10 +9,11 @@ import {
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Auth from "../Auth";
+import Workplace from '../Workplace'
 
 const App = () => {
   let [statusLog, setStatusLog] = useState<false | true | undefined | Error>();
-  let [position, setPosition] = useState<'courier' | 'manager' | undefined>();
+  let [position, setPosition] = useState<'courier' | 'manager' | 'admin' | undefined>();
 
   useEffect(() => {
     axios.get('/account/islog/')
@@ -36,11 +37,14 @@ const App = () => {
       <Spin size={'large'}/>
     </div>}
     {statusLog === true && <div className="App-root__loaded">
-      true
+      <Workplace position={position}/>
     </div>}
     {
       statusLog === false
-      && <Auth onStatusChange={(status: true, position: 'courier' | 'manager' | undefined) => {setStatusLog(status)}}/>
+      && <Auth onStatusChange={(status: true, position: 'courier' | 'manager' | 'admin' | undefined) => {
+        setStatusLog(status);
+        setPosition(position)
+      }}/>
     }
     {
       statusLog instanceof Error && (

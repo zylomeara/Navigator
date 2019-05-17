@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from "react";
-import { getCookie } from "../../ui/utils";
+import { getCookie } from "../../UI/utils";
 import axios from "axios";
 import { Alert, Button, Form, Icon, Input, message, Modal, Tabs } from "antd";
 
@@ -38,7 +38,7 @@ const Login = (props: Props) => {
             setLoading(false);
             if (res.data.logged === true) {
               setIsWrongUserCredentialsWasProvided(false);
-              props.onStatusChange && props.onStatusChange(true);
+              props.onStatusChange && props.onStatusChange(true, res.data.position);
             } else {
               setIsWrongUserCredentialsWasProvided(true)
             }
