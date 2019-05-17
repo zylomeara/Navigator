@@ -6,21 +6,40 @@ from .models import (
     Manager
 )
 
+from django.contrib.auth.hashers import (
+    check_password, is_password_usable, make_password,
+)
+
 
 class AdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
         fields = '__all__'
 
+    def save(self, **kwargs):
+        self.validated_data['password'] = make_password(self.validated_data['password'])
+
+        return super().save(**kwargs)
+
 class CourierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Courier
         fields = '__all__'
 
+    def save(self, **kwargs):
+        self.validated_data['password'] = make_password(self.validated_data['password'])
+
+        return super().save(**kwargs)
+
 class ManagerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Manager
         fields = '__all__'
+
+    def save(self, **kwargs):
+        self.validated_data['password'] = make_password(self.validated_data['password'])
+
+        return super().save(**kwargs)
 
 
 class UserSerializer(serializers.ModelSerializer):

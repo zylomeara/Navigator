@@ -23,7 +23,7 @@ const Register = (props: Props) => {
         setLoading(true);
         let csrftoken = getCookie('csrftoken');
         console.log('Received values of form: ', values);
-        axios('/account/login/', {
+        axios('/account/register/', {
           data: values,
           headers: {
             'Accept': 'application/json',
@@ -34,11 +34,8 @@ const Register = (props: Props) => {
         })
           .then(res => {
             setLoading(false);
-            if (res.data.logged === true) {
-              setIsWrongUserCredentialsWasProvided(false);
-            } else {
-              setIsWrongUserCredentialsWasProvided(true)
-            }
+
+
           })
           .catch(error => {
             setLoading(false);
@@ -101,7 +98,7 @@ const Register = (props: Props) => {
       </Form.Item>
 
       <Form.Item label={'Введите номер телефона'}>
-        {getFieldDecorator('phone', {
+        {getFieldDecorator('phone_number', {
           rules: [{ required: true, message: 'Please input your phone number!' }],
         })(
           <Input

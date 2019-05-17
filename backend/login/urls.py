@@ -9,3 +9,19 @@ urlpatterns = [
     # path('login/', views.log),
     # path('logout/', views.logout_view, name='logout'),
 ]
+
+
+# -*- coding: utf-8 -*-
+
+
+from django.conf.urls import url
+from rest_framework.routers import DefaultRouter
+
+
+
+router = DefaultRouter()
+router.register(r'register',
+                views.UserView, base_name='user')
+
+urlpatterns += router.urls
+

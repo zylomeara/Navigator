@@ -9,16 +9,18 @@ from django.contrib.auth.models import User
 from rest_framework.viewsets import ModelViewSet
 # from MyProject.utils import encode_cookie
 
+from .serializers import AdminSerializer, CourierSerializer, ManagerSerializer
+
 
 
 # Create your views here.
 
-class UserView(ModelViewSet):
-    model = User
-    serializer_class = User
-    # filter_backends = (QueryFilterBackend,)
-    permission_classes = ()
-    queryset = User.objects.all()
+# class UserView(ModelViewSet):
+#     model = User
+#     serializer_class = User
+#     # filter_backends = (QueryFilterBackend,)
+#     permission_classes = ()
+#     queryset = User.objects.all()
 
 
 def login_view(request):
@@ -39,8 +41,16 @@ def login_view(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            print('fine')
-            response.write(json.dumps({'logged': True}))
+            responseContent = {'logged': True}
+
+            if hasattr(user, 'manager'):
+                responseContent['position'] = 'manager'
+            elif hasattr(user, 'courier'):
+                responseContent['position'] = 'courier'
+            else:
+                responseContent['position'] = 'admin'
+
+            response.write(json.dumps(responseContent))
             response.set_cookie('username', user.username)
             # response.set_cookie('username', encode_cookie(user.username))
             response.set_cookie('first_name', user.first_name)
@@ -91,6 +101,14 @@ def islog_view(request):
     responseContent = {}
     if(user.is_authenticated):
         responseContent['logged'] = True
+
+        if hasattr(user, 'manager'):
+            responseContent['position'] = 'manager'
+        elif hasattr(user, 'courier'):
+            responseContent['position'] = 'courier'
+        else:
+            responseContent['position'] = 'admin'
+
         response.write(json.dumps(responseContent))
         response.set_cookie('username', (user.username))
         response.set_cookie(
@@ -123,3 +141,25 @@ def register_view(request):
     else:
         response.status_code = 404
         return response
+
+
+
+class UserView(ModelViewSet):
+    """A view for Django users"""
+    # serializer_class = UserSerializer
+
+    def get_serializer_class(self):
+        if self.request.data['position'] == 'courier':
+            return CourierSerializer
+        elif self.request.data['position'] == 'manager':
+            return ManagerSerializer
+        else:
+            return AdminSerializer
+
+    def get_queryset(self):
+        if self.request.data['position'] == 'courier':
+            return Courier
+        elif self.request.data['position'] == 'manager':
+            return Manager
+        else:
+            return Admin
