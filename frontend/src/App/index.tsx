@@ -23,6 +23,10 @@ const App = () => {
         } else {
           setStatusLog(false)
         }
+
+        if (res.data.position) {
+          setPosition(res.data.position)
+        }
         console.log(res);
       })
       .catch(error => {

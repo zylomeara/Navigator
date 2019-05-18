@@ -89,3 +89,5 @@ stop_gunicorn.sh
 status_gunicorn.sh
 
 /frontend/webpack-stats.json
+
+/backend/files

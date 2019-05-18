@@ -21,5 +21,13 @@ from . import views
 urlpatterns = [
     url('^admin/', admin.site.urls),
     url(r'^account/', include('login.urls')),
-    url(r'^', views.IndexView.as_view()),
 ]
+
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from . import settings
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
+
+urlpatterns += [url(r'^', views.IndexView.as_view())]
