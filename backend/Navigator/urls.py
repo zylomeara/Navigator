@@ -21,6 +21,7 @@ from . import views
 urlpatterns = [
     url('^admin/', admin.site.urls),
     url(r'^account/', include('login.urls')),
+    url(r'^api/', include('orderapi.urls')),
 ]
 
 from django.conf.urls.static import static
