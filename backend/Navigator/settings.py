@@ -35,8 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'login.apps.LoginConfig',
-    'rest_framework'
+    'rest_framework',
+    'orderapi.apps.OrderapiConfig'
 ]
 
 MIDDLEWARE = [
@@ -82,8 +84,8 @@ WSGI_APPLICATION = 'Navigator.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'navigator',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
