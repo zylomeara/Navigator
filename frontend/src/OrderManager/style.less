@@ -1,0 +1,166 @@
+.ClientManager {
+  //height: inherit;
+  //.ant-spin-nested-loading {
+  //  height: inherit;
+  //  .ant-spin-container {
+  //    height: calc( 100% - 55px );
+  //    .ant-table {
+  //      height: 100%;
+  //      .ant-table-content {
+  //        height: 100%;
+  //      }
+  //    }
+  //  }
+  //}
+}
+
+// Фикс скроллинга. В приложении все таблицы занимают все пространство родительского блока, что стало проблемой для данной таблицы.
+.ant-table-wrapper {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+
+  &>.ant-spin-nested-loading {
+    height: 100%;
+    overflow: hidden;
+
+    &>.ant-spin-container {
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+
+      &>.ant-table {
+        flex: 1;
+        overflow: auto;
+        //overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        &>.ant-table-content {
+          height: 100%;
+          flex: 1;
+
+          &>.ant-table-scroll {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            &>.ant-table-body {
+              flex: 1;
+            }
+          }
+
+          &>.ant-table-fixed-left, &>.ant-table-fixed-right {
+            display: flex;
+            flex-direction: column;
+            // height: calc(100% - 15px);
+            height: calc(100% - 17px);
+            margin-top: 1px;
+
+            &>.ant-table-body-outer {
+              margin-bottom: 0;
+              flex: 1;
+              overflow: hidden;
+
+              &>.ant-table-body-inner {
+                overflow-x: hidden;
+              }
+            }
+          }
+
+          &>.ant-table-fixed-left {
+            margin-left: 1px;
+          }
+
+          &>.ant-table-fixed-right {
+            margin-right: 1px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ant-table-scroll table .ant-table-fixed-columns-in-body {
+  visibility: visible;
+}
+
+// Спиннер не отцентрован по вертикали.
+.ant-table-wrapper > .ant-spin-nested-loading > div > .ant-spin {
+  max-height: 100%;
+}
+
+// Если контент ячейки не влезает по ширине, то он просто растягивает ячейку, а нужно чтобы контент влезал.
+.ant-table-tbody > tr > td {
+  word-break: break-word;
+}
+
+// По известным причинам в заголовке таблицы справа показывается вертикальный скролл.
+.ant-table-header {
+  &::-webkit-scrollbar {
+    width: initial;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+}
+
+// Если все колонки не влезают по ширине то они просто сморщиваются, а должны прокручиваться по горизонтали.
+.ant-table-scroll table {
+  width: 100%;
+}
+
+// Таблица если и рисует границы (свойство bordered) то все сразу, а нужны только внешние.
+.ant-table-wrapper > .ant-spin-nested-loading > .ant-spin-container > .ant-table > .ant-table-content {
+  border: 1px solid #e8e8e8;
+}
+
+// Пагинатор распологается слева, а нужно справа
+.ant-table-pagination.ant-pagination {
+  align-self: flex-end;
+}
+
+// Modal
+
+// Модальное окно растягивается на всю высоту контента если высота контента больше высоты окна. Проблема здесь в том что при этом прокручивается все модальное окно, а должна только область контента.
+.ant-modal {
+  max-height: 90%;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  top: 5%;
+  max-width: 90%;
+
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .ant-modal-body {
+      overflow: auto;
+      flex: 1;
+    }
+  }
+}
+
+// Tabs
+
+// Табы должны занимать 100% вертикального пространства своего родительского контейнера. При этом прокручиваться должна только область контента.
+.ant-tabs.ant-tabs-top {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+
+  .ant-tabs-content.ant-tabs-top-content {
+    flex: 1;
+    min-height: 0;
+
+    .ant-tabs-tabpane {
+      overflow: auto;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { Breadcrumb, Layout, Menu, Icon, Table, Tabs } from "antd";
 import { useState } from "react";
 
 import ClientManager from '../../ClientManager';
+import OrderManager from '../../OrderManager';
 
 const {
   Header,
@@ -43,8 +44,8 @@ const Manager = (props: any) => {
           {/*1*/}
         </Tabs.TabPane>
         <Tabs.TabPane key={'orders'}>
-          {/*<OrderManager />*/}
-          1
+          <OrderManager />
+          {/*1*/}
         </Tabs.TabPane>
         <Tabs.TabPane key={'transportations'}>
           {/*<TransportationManager />*/}
