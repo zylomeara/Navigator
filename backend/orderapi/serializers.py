@@ -8,7 +8,8 @@ from .models import (
     Transportation,
     Task
 )
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import GEOSGeometry, GEOSException
+from django.contrib.gis.gdal import GDALException
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -21,30 +22,33 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
+
+class GeometryField(serializers.Field):
+    """A field for GeoJSON geometry serialization"""
+
+    def to_internal_value(self, data):
+        if data == '' or data is None:
+            return None
+        if isinstance(data, GEOSGeometry):
+            return data
+        if isinstance(data, dict):
+            data = json.dumps(data)
+        try:
+            return GEOSGeometry(data)
+        except (GDALException, GEOSException, TypeError, ValueError):
+            pass
+            # raise serializers.ValidationError(_('Cannot deserialize geometry'))
+
+    def to_representation(self, value):
+        if isinstance(value, dict) or value is None:
+            return value
+        return json.loads(value.geojson)
+
+
 class TransportationSerializer(serializers.ModelSerializer):
-    start_location = serializers.SerializerMethodField()
-    end_location = serializers.SerializerMethodField()
-
-    def get_start_location(self, obj):
-        return json.loads(obj.start_location.geojson)
-
-    def get_end_location(self, obj):
-        return json.loads(obj.end_location.geojson)
-
-    def save(self, **kwargs):
-        # start = json.dumps(self.data.pop('start_location'))
-        # end = json.dumps(self.data.pop('end_location'))
-        #
-        # a = GEOSGeometry(start, srid=4326).wkt
-        # b = GEOSGeometry(end, srid=4326).wkt
-        #
-        # self.start_location = a
-        # self.end_location = b
-        # print(a)
-        # print(b)
-        print(1)
-
-        super().save(self.data)
+    # start_location = GeometryField(allow_null=True)
+    start_location = GeometryField()
+    end_location = GeometryField()
 
     class Meta:
         model = Transportation
