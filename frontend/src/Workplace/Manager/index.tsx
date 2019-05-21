@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import ClientManager from '../../ClientManager';
 import OrderManager from '../../OrderManager';
+import TransportationManager from "../../TransportationManager";
 
 const {
   Header,
@@ -48,8 +49,8 @@ const Manager = (props: any) => {
           {/*1*/}
         </Tabs.TabPane>
         <Tabs.TabPane key={'transportations'}>
-          {/*<TransportationManager />*/}
-          1
+          <TransportationManager />
+          {/*1*/}
         </Tabs.TabPane>
         <Tabs.TabPane key={'parcels'}>
           {/*<ParcelManager />*/}
