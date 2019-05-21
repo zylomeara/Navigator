@@ -5,6 +5,7 @@ import { useState } from "react";
 import ClientManager from '../../ClientManager';
 import OrderManager from '../../OrderManager';
 import TransportationManager from "../../TransportationManager";
+import TaskManager from "../../TaskManager";
 
 const {
   Header,
@@ -15,7 +16,7 @@ const {
 
 const { SubMenu } = Menu;
 
-type Tabs = 'clients' | 'orders' | 'transportations' | 'parcels'
+type Tabs = 'clients' | 'orders' | 'transportations' | 'tasks'
 
 const Manager = (props: any) => {
   let [tab, setTab] = useState<Tabs>('clients');
@@ -32,7 +33,7 @@ const Manager = (props: any) => {
           <Menu.Item key="clients">Клиенты</Menu.Item>
           <Menu.Item key="orders">Заказы</Menu.Item>
           <Menu.Item key="transportations">Перевозки</Menu.Item>
-          <Menu.Item key="parcels">Посылки</Menu.Item>
+          <Menu.Item key="tasks">Задачи</Menu.Item>
         </Menu>
       </Sider>
 
@@ -52,9 +53,9 @@ const Manager = (props: any) => {
           <TransportationManager />
           {/*1*/}
         </Tabs.TabPane>
-        <Tabs.TabPane key={'parcels'}>
-          {/*<ParcelManager />*/}
-          1
+        <Tabs.TabPane key={'tasks'}>
+          <TaskManager />
+          {/*1*/}
         </Tabs.TabPane>
       </Tabs>
 

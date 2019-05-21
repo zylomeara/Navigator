@@ -163,3 +163,11 @@ class UserView(ModelViewSet):
             return Manager
         else:
             return Admin
+
+class CourierView(ModelViewSet):
+    serializer_class = CourierSerializer
+    queryset = Courier.objects.all()
+
+class ManagerView(ModelViewSet):
+    serializer_class = ManagerSerializer
+    queryset = Manager.objects.all()

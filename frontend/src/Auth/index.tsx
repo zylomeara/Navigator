@@ -3,6 +3,7 @@ import { Form, Icon, Input, Button, Checkbox, Modal, message, Alert, Tabs } from
 import axios from 'axios';
 import { getCookie } from "../UI/utils";
 import { useState } from "react";
+import './style.less';
 
 import Login from './Login';
 import Register from "./Register";

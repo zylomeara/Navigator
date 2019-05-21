@@ -22,6 +22,8 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'register',
                 views.UserView, base_name='user')
+router.register(r'courier', views.CourierView, base_name='courier')
+router.register(r'manager', views.ManagerView, base_name='manager')
 
 urlpatterns += router.urls
 
