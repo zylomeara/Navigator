@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import TransportationForm from './TransportationForm';
 import { getCookie } from "../UI/utils";
+import TransportationRoute from "./TransportationRoute";
 
 
 
@@ -43,6 +44,7 @@ const TransportationManager = (props: any) => {
   let data = useAPITableData([forceUpdate]);
   let [editItem, setEditItem] = useState<undefined | null | number>();
   let [loading, setLoading] = useState<boolean>(false);
+  let [itemRoute, setItemRoute] = useState<undefined | any>(false);
 
   const columns = [
   {
@@ -94,6 +96,14 @@ const TransportationManager = (props: any) => {
     // fixed: 'right',
     render: (text, rowItem) => {
       return <>
+        <Tooltip title={'Показать маршрут'} placement={'bottom'}>
+          <Icon
+            type={'compass'}
+            style={{ cursor: 'pointer' }}
+            onClick={() => setItemRoute([rowItem.start_location, rowItem.end_location])}
+          />
+        </Tooltip>
+        <Divider type={'vertical'}/>
         <Tooltip title={'Редактировать'} placement={'bottom'}>
           <Icon
             type={'edit'}
@@ -187,6 +197,11 @@ const TransportationManager = (props: any) => {
         }
       />
     )}
+    <TransportationRoute
+      geoms={itemRoute}
+      onOk={() => setItemRoute(undefined)}
+      onCancel={() => setItemRoute(undefined)}
+    />
   </div>
 };
 
