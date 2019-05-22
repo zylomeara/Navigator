@@ -30,10 +30,10 @@ const Manager = (props: any) => {
           selectedKeys={[tab]}
           style={{ height: '100%' }}
         >
-          <Menu.Item key="clients">Клиенты</Menu.Item>
-          <Menu.Item key="orders">Заказы</Menu.Item>
-          <Menu.Item key="transportations">Перевозки</Menu.Item>
-          <Menu.Item key="tasks">Задачи</Menu.Item>
+          <Menu.Item key="clients"><Icon type={'user'}/>Клиенты</Menu.Item>
+          <Menu.Item key="orders"><Icon type={'dropbox'}/>Заказы</Menu.Item>
+          <Menu.Item key="transportations"><Icon type={'car'}/>Перевозки</Menu.Item>
+          <Menu.Item key="tasks"><Icon type={'solution'}/>Задачи</Menu.Item>
         </Menu>
       </Sider>
 

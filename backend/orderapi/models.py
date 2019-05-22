@@ -45,5 +45,8 @@ class Task(models.Model):
     courier = models.ForeignKey(Courier, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = ('transportation', 'courier',)
+
     def __str__(self):
         return 'Task(transportation={}, courier={}, status={})'.format(self.transportation, self.courier, self.status)

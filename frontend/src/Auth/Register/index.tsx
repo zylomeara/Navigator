@@ -73,13 +73,37 @@ const Register = (props: Props) => {
           </Select>)}
         </Form.Item>
 
+      <Form.Item label={'Введите Ваше имя'}>
+        {getFieldDecorator('first_name', {
+          rules: [{ required: true, message: 'Please input your first name!' }],
+        })(
+          <Input
+            // prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
+            placeholder="Имя"
+            onPressEnter={handleSubmit}
+          />,
+        )}
+      </Form.Item>
+
+      <Form.Item label={'Введите Вашу фамилию'}>
+        {getFieldDecorator('last_name', {
+          rules: [{ required: true, message: 'Please input your last name!' }],
+        })(
+          <Input
+            // prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
+            placeholder="Фамилия"
+            onPressEnter={handleSubmit}
+          />,
+        )}
+      </Form.Item>
+
       <Form.Item label={'Введите логин'}>
         {getFieldDecorator('username', {
           rules: [{ required: true, message: 'Please input your username!' }],
         })(
           <Input
             // prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
-            placeholder="Username"
+            placeholder="Логин"
             onPressEnter={handleSubmit}
           />,
         )}
@@ -91,7 +115,7 @@ const Register = (props: Props) => {
           <Input
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
             type="password"
-            placeholder="Password"
+            placeholder="Пароль"
             onPressEnter={handleSubmit}
           />,
         )}
@@ -104,7 +128,7 @@ const Register = (props: Props) => {
           <Input
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
             // type="password"
-            // placeholder="Password"
+            placeholder="Номер телефона"
             onPressEnter={handleSubmit}
           />,
         )}
@@ -119,7 +143,7 @@ const Register = (props: Props) => {
           <Input
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
             // type="password"
-            // placeholder="Password"
+            placeholder="Название транспорта"
             onPressEnter={handleSubmit}
           />,
         )}
@@ -136,7 +160,7 @@ const Register = (props: Props) => {
           <Input
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
             // type="password"
-            // placeholder="Password"
+            placeholder="Рабочее место"
             onPressEnter={handleSubmit}
           />,
         )}
