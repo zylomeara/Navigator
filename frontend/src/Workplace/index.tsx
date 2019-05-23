@@ -8,6 +8,7 @@ import Manager from './Manager';
 import HeaderComponent from './Header';
 import { useState } from "react";
 import PersonalData from "../PersonalData";
+import Employees from "../Employees";
 
 interface Props {
   position: 'courier' | 'manager' | undefined | 'admin'
@@ -37,7 +38,7 @@ const Workplace = (props: Props) => {
           <PersonalData/>
         </Tabs.TabPane>
         <Tabs.TabPane key={'employees'}>
-          List employees
+          <Employees/>
         </Tabs.TabPane>
       </Tabs>
     </Layout>
