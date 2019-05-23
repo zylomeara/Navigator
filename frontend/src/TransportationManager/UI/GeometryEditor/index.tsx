@@ -21,9 +21,11 @@ import {
   Modal,
   Dropdown,
   Menu,
-  Icon
+  Icon, Col, Input, Select, Row, message
 } from "antd";
 import { GeometryEditorImportDialog } from '../GeometryEditorImport'
+import axios from 'axios';
+
 // import { getProjection } from "../../../../lib/mapUtils";
 
 
@@ -97,6 +99,9 @@ export const GeometryEditor = (props: Props) => {
   let [geomTypeEdit, setGeomTypeEdit] = useState<ol.geom.GeometryType | undefined>();
 
   let [importDialogVisible, setImportDialogVisible] = useState(false);
+
+  let [searchData, setSearchData] = useState<undefined | Promise<any> | any[]>();
+  let [chosenDataItem, setChosenDataItem] = useState<undefined | number>();
 
   let prevInteraction = useRef(interaction);
 
@@ -216,6 +221,25 @@ export const GeometryEditor = (props: Props) => {
     }
   }, [geom, layer]);
 
+  useEffect(() => {
+    if (typeof chosenDataItem === 'number') {
+
+      let geom = searchData[chosenDataItem].geometry;
+      let olGeom = format.readGeometry(geom);
+
+      setGeom(olGeom);
+    } else {
+      clearMap();
+    }
+  }, [chosenDataItem]);
+
+  useEffect(() => {
+    if (!props.visible) {
+      setChosenDataItem(undefined);
+      setSearchData(undefined);
+    }
+  }, [props.visible]);
+
   /** Включение рисования */
   function enableDraw(geomType: ol.geom.GeometryType) {
     setGeom(undefined);
@@ -268,6 +292,23 @@ export const GeometryEditor = (props: Props) => {
   function clearMap() {
     setGeom(undefined);
     setInteraction(undefined);
+    setChosenDataItem(undefined);
+  }
+
+  function onSearch(value: string) {
+    let url = `https://api.opencagedata.com/geocode/v1/geojson?q=${value}&key=2268ad023bf744ba8b2871190e664797`;
+
+    let request = axios.get(url)
+      .then((res) => {
+        setSearchData(res.data.features);
+        message.success(`Найдено ${res.data.features.length || 0} элементов`)
+      });
+
+    setSearchData(request)
+  }
+
+  function onChangeSearchItem(value) {
+    setChosenDataItem(value)
   }
 
   function onSave() {
@@ -318,6 +359,28 @@ export const GeometryEditor = (props: Props) => {
       </Dropdown>
       <Button onClick={clearMap}>Очистить</Button>
       <Button onClick={showModal}>Импортировать из JSON</Button>
+      <Row style={{ marginTop: '10px' }}>
+        <Col span={12}>
+          <Input.Search
+            enterButton
+            onSearch={onSearch}
+          />
+        </Col>
+        <Col span={12}>
+          <Select
+            style={{ display: 'block' }}
+            disabled={searchData === undefined}
+            loading={searchData instanceof Promise}
+            value={chosenDataItem}
+            onChange={onChangeSearchItem}
+            allowClear
+          >
+            {Array.isArray(searchData) && searchData.map((item, index) => (
+              <Select.Option key={index} value={index}>{item.properties.formatted}</Select.Option>
+            ))}
+          </Select>
+        </Col>
+      </Row>
     </div>
     <div className="geometry-editor">
       <div ref={setMapDiv}/>

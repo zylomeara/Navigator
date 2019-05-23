@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import axios from 'axios';
 
 import olConditionEvents from "ol/events/condition";
@@ -23,7 +23,7 @@ import olExtent from 'ol/extent'
 import olStyle from 'ol/style/style';
 import olIcon from 'ol/style/icon'
 import olStroke from 'ol/style/stroke'
-import { Form, Input, Modal, Tabs } from "antd";
+import { Col, Form, Input, Modal, Row, Select, Tabs } from "antd";
 
 interface Props {
   geoms: undefined | [any, any];
@@ -120,7 +120,6 @@ const TransportationRoute = (props: Props) => {
             let polyGeom = route.geometry;
             let polylineFormat = new olPolyline();
             let olFeature = polylineFormat.readFeature(polyGeom);
-            console.log(olFeature);
 
             map && map.getView().fit(olFeature.getGeometry().getExtent(), {
               size: map.getSize(),
@@ -130,7 +129,21 @@ const TransportationRoute = (props: Props) => {
 
             layer.getSource().addFeatures([olFeature]);
           }
+        });
+
+      props.geoms.map((geom, index) => {
+        let url = 'http://nominatim.openstreetmap.org/reverse?format=json&lon='
+                + geom.coordinates[0] + '&lat=' + geom.coordinates[1];
+
+        axios.get(url)
+        .then((res) => {
+          if (index === 0) {
+            setStartAddress(res.data.display_name)
+          } else {
+            setEndAddress(res.data.display_name)
+          }
         })
+      });
     }
 
     return () => {
@@ -139,6 +152,12 @@ const TransportationRoute = (props: Props) => {
       setEndAddress(undefined)
     }
   }, [mapDiv]);
+
+  useEffect(() => {
+    if (!!!props.geoms) {
+      setCurrentTab('map')
+    }
+  }, [!!props.geoms]);
 
   return (
     <Modal
@@ -155,7 +174,7 @@ const TransportationRoute = (props: Props) => {
         </Tabs.TabPane>
         <Tabs.TabPane tab={'Адреса'} key={'address'}>
           <Form.Item label={'Адрес отправки'}>
-            <Input
+            <Input.TextArea
               value={startAddress}
               onChange={(event) => {
                 setStartAddress(event.target.value)
@@ -163,7 +182,7 @@ const TransportationRoute = (props: Props) => {
             />
           </Form.Item>
           <Form.Item label={'Адрес пункта назначения'}>
-            <Input
+            <Input.TextArea
               value={endAddress}
               onChange={(event) => {
                 setEndAddress(event.target.value)
