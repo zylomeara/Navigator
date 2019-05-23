@@ -75,7 +75,7 @@ const Register = (props: Props) => {
 
       <Form.Item label={'Введите Ваше имя'}>
         {getFieldDecorator('first_name', {
-          rules: [{ required: true, message: 'Please input your first name!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите Ваше имя!' }],
         })(
           <Input
             // prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
@@ -87,7 +87,7 @@ const Register = (props: Props) => {
 
       <Form.Item label={'Введите Вашу фамилию'}>
         {getFieldDecorator('last_name', {
-          rules: [{ required: true, message: 'Please input your last name!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите Вашу фамилию!' }],
         })(
           <Input
             // prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
@@ -99,7 +99,7 @@ const Register = (props: Props) => {
 
       <Form.Item label={'Введите логин'}>
         {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Please input your username!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите Ваш логин!' }],
         })(
           <Input
             // prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
@@ -110,7 +110,7 @@ const Register = (props: Props) => {
       </Form.Item>
       <Form.Item label={'Введите пароль'}>
         {getFieldDecorator('password', {
-          rules: [{ required: true, message: 'Please input your Password!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите Ваш пароль!' }],
         })(
           <Input
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
@@ -123,7 +123,7 @@ const Register = (props: Props) => {
 
       <Form.Item label={'Введите номер телефона'}>
         {getFieldDecorator('phone_number', {
-          rules: [{ required: true, message: 'Please input your phone number!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите Ваш номер!' }],
         })(
           <Input
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
@@ -138,7 +138,7 @@ const Register = (props: Props) => {
         position === 'courier' && (
           <Form.Item label={'Введите название транспорта'}>
         {getFieldDecorator('transport', {
-          rules: [{ required: true, message: 'Please input your phone number!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите название Вашего транспорта!' }],
         })(
           <Input
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
@@ -155,7 +155,7 @@ const Register = (props: Props) => {
         position === 'manager' && (
           <Form.Item label={'Введите место работы'}>
         {getFieldDecorator('work_place', {
-          rules: [{ required: true, message: 'Please input your phone number!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите Ваше место работы!' }],
         })(
           <Input
             // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}

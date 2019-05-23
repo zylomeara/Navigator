@@ -57,7 +57,7 @@ const Login = (props: Props) => {
       {/*<Form onSubmit={handleSubmit} className="login-form">*/}
       {isWrongUserCredentialsWasProvided && (
         <Alert
-          message="Пароль или имя пользователя не верны"
+          message="Пароль или имя пользователя неверны"
           type="error"
           style={{ marginBottom: 24 }}
         />
@@ -65,29 +65,29 @@ const Login = (props: Props) => {
 
       <Form.Item>
         {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Please input your username!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите Ваш логин!' }],
         })(
           <Input
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
-            placeholder="Username"
+            placeholder="Логин"
             onPressEnter={handleSubmit}
           />,
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('password', {
-          rules: [{ required: true, message: 'Please input your Password!' }],
+          rules: [{ required: true, message: 'Пожалуйста, введите Ваш пароль!' }],
         })(
           <Input
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
             type="password"
-            placeholder="Password"
+            placeholder="Пароль"
             onPressEnter={handleSubmit}
           />,
         )}
       </Form.Item>
       <Button loading={loading} onClick={handleSubmit} type={'primary'}>Войти</Button>
-      <Button onClick={() => props.switchMode('register')}>Register</Button>
+      <Button onClick={() => props.switchMode('register')}>Регистрация</Button>
       {/*<Form.Item>*/}
       {/*{getFieldDecorator('remember', {*/}
       {/*  valuePropName: 'checked',*/}
