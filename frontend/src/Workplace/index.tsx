@@ -7,6 +7,7 @@ import Courier from './Courier';
 import Manager from './Manager';
 import HeaderComponent from './Header';
 import { useState } from "react";
+import PersonalData from "../PersonalData";
 
 interface Props {
   position: 'courier' | 'manager' | undefined | 'admin'
@@ -33,7 +34,7 @@ const Workplace = (props: Props) => {
           )}
         </Tabs.TabPane>
         <Tabs.TabPane key={'person_data'}>
-          Personal data
+          <PersonalData/>
         </Tabs.TabPane>
         <Tabs.TabPane key={'employees'}>
           List employees

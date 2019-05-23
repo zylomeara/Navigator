@@ -5,7 +5,7 @@ import axios from "axios";
 import { Alert, Button, Form, Icon, Input, message, Modal, Tabs } from "antd";
 
 interface Props {
-  onStatusChange(status: true, position: 'courier' | 'manager' | undefined): void;
+  onStatusChange(status: true, position: 'courier' | 'manager' | undefined, profiles: any): void;
   switchMode(mode: 'auth' | 'register'): void;
 
   form?: any;
@@ -38,7 +38,7 @@ const Login = (props: Props) => {
             setLoading(false);
             if (res.data.logged === true) {
               setIsWrongUserCredentialsWasProvided(false);
-              props.onStatusChange && props.onStatusChange(true, res.data.position);
+              props.onStatusChange && props.onStatusChange(true, res.data.position, res.data);
             } else {
               setIsWrongUserCredentialsWasProvided(true)
             }

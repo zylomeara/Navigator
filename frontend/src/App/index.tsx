@@ -11,9 +11,12 @@ import axios from 'axios';
 import Auth from "../Auth";
 import Workplace from '../Workplace'
 
+export const ProfileContext = React.createContext(null);
+
 const App = () => {
   let [statusLog, setStatusLog] = useState<false | true | undefined | Error>();
   let [position, setPosition] = useState<'courier' | 'manager' | 'admin' | undefined>();
+  let [personalData, setPersonalData] = useState<any>();
 
   useEffect(() => {
     axios.get('/account/islog/')
@@ -27,7 +30,7 @@ const App = () => {
         if (res.data.position) {
           setPosition(res.data.position)
         }
-        console.log(res);
+        setPersonalData(res.data)
       })
       .catch(error => {
         setStatusLog(error);
@@ -36,30 +39,33 @@ const App = () => {
       })
   }, []);
 
-  return <div className={'App-root'}>
-    {statusLog === undefined && <div className="App-root__load">
-      <Spin size={'large'}/>
-    </div>}
-    {statusLog === true && <div className="App-root__loaded">
-      <Workplace position={position}/>
-    </div>}
-    {
-      statusLog === false
-      && <Auth onStatusChange={(status: true, position: 'courier' | 'manager' | 'admin' | undefined) => {
-        setStatusLog(status);
-        setPosition(position)
-      }}/>
-    }
-    {
-      statusLog instanceof Error && (
+  return <ProfileContext.Provider value={personalData}>
+    <div className={'App-root'}>
+      {statusLog === undefined && <div className="App-root__load">
+        <Spin size={'large'}/>
+      </div>}
+      {statusLog === true && <div className="App-root__loaded">
+        <Workplace position={position}/>
+      </div>}
+      {
+        statusLog === false
+        && <Auth onStatusChange={(status: true, position: 'courier' | 'manager' | 'admin' | undefined, data) => {
+          setStatusLog(status);
+          setPosition(position)
+          setPersonalData(data)
+        }}/>
+      }
+      {
+        statusLog instanceof Error && (
           <Alert
             message={statusLog.message}
             type="error"
             style={{ marginBottom: 24 }}
           />
         )
-    }
-  </div>
+      }
+    </div>
+  </ProfileContext.Provider>
 };
 
 ReactDOM.render(<App/>, document.getElementById('root'));

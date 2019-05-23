@@ -45,10 +45,16 @@ def login_view(request):
 
             if hasattr(user, 'manager'):
                 responseContent['position'] = 'manager'
+                user = Manager.objects.get(id=user.id)
+                responseContent['profile'] = ManagerSerializer(user).data
             elif hasattr(user, 'courier'):
                 responseContent['position'] = 'courier'
+                user = Courier.objects.get(id=user.id)
+                responseContent['profile'] = CourierSerializer(user).data
             else:
                 responseContent['position'] = 'admin'
+                user = Admin.objects.get(id=user.id)
+                responseContent['profile'] = AdminSerializer(user).data
 
             response.write(json.dumps(responseContent))
             response.set_cookie('username', user.username)
@@ -104,10 +110,16 @@ def islog_view(request):
 
         if hasattr(user, 'manager'):
             responseContent['position'] = 'manager'
+            user = Manager.objects.get(id=user.id)
+            responseContent['profile'] = ManagerSerializer(user).data
         elif hasattr(user, 'courier'):
             responseContent['position'] = 'courier'
+            user = Courier.objects.get(id=user.id)
+            responseContent['profile'] = CourierSerializer(user).data
         else:
             responseContent['position'] = 'admin'
+            user = Admin.objects.get(id=user.id)
+            responseContent['profile'] = AdminSerializer(user).data
 
         response.write(json.dumps(responseContent))
         response.set_cookie('username', (user.username))
