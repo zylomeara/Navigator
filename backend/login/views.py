@@ -59,8 +59,8 @@ def login_view(request):
             response.write(json.dumps(responseContent))
             response.set_cookie('username', user.username)
             # response.set_cookie('username', encode_cookie(user.username))
-            response.set_cookie('first_name', user.first_name)
-            response.set_cookie('last_name', user.last_name)
+            # response.set_cookie('first_name', user.first_name)
+            # response.set_cookie('last_name', user.last_name)
             return response
             # return render(request, 'login/success.html')
         else:
