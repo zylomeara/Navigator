@@ -65,13 +65,13 @@ def login_view(request):
             # return render(request, 'login/success.html')
         else:
             pass
-            print('no')
+            # print('no')
             return HttpResponse('no')
 
             # return render(request, 'login/disabled.html')
     else:
         pass
-        print('not')
+        # print('not')
         response.write(json.dumps({'logged': False}))
         response.delete_cookie('username')
         response.delete_cookie('first_name')
@@ -123,9 +123,9 @@ def islog_view(request):
 
         response.write(json.dumps(responseContent))
         response.set_cookie('username', (user.username))
-        response.set_cookie(
-            'first_name', (user.first_name))
-        response.set_cookie('last_name', (user.last_name))
+        # response.set_cookie(
+        #     'first_name', (user.first_name))
+        # response.set_cookie('last_name', (user.last_name))
     else:
         responseContent['logged'] = False
         response.write(json.dumps(responseContent))
