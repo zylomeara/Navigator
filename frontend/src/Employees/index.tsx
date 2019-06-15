@@ -91,7 +91,7 @@ const Employees = (props: any) => {
     <Tabs activeKey={tab} onChange={setTab} className={'Employees'} style={{background: 'white'}}>
       <Tabs.TabPane tab={'Курьеры'} key={'courier'}>
         <Table
-          dataSource={managers}
+          dataSource={couriers}
           columns={managerColumns}
           loading={loading}
           size={'small'}
@@ -99,7 +99,7 @@ const Employees = (props: any) => {
       </Tabs.TabPane>
       <Tabs.TabPane tab={'Менеджеры'} key={'manager'}>
         <Table
-          dataSource={couriers}
+          dataSource={managers}
           columns={courierColumns}
           loading={loading}
           size={'small'}

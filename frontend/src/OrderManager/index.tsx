@@ -24,15 +24,27 @@ function useAPITableData(deps: any[]) {
   let [result, setResult] = useState();
 
   useEffect(() => {
-    let request = axios.get('/api/order/')
-      .then((res) => {
-        setResult(res.data)
+    let requestOrder = axios.get('/api/order/');
+    let requestClient = axios.get('/api/client/');
+
+    Promise.all([requestOrder, requestClient])
+      .then(values => {
+        let orders = values[0].data;
+        let clients = values[1].data;
+
+        orders = orders.map(order => {
+          let foundClient = clients.find(client => client.id === order.client);
+          order.client_display = `${foundClient.id}: ${foundClient.last_name} ${foundClient.first_name} ${foundClient.middle_name}`;
+
+          return order
+        });
+        setResult(orders);
       })
-      .catch((error) => {
-        setResult(error);
+      .catch(error => {
+        console.error(error);
         message.error(error.message);
       });
-    setResult(request);
+    setResult(requestOrder);
   }, [...deps]);
 
   return result;
@@ -82,8 +94,8 @@ const OrderManager = (props: any) => {
   },
   {
     title: 'Клиент',
-    dataIndex: 'client',
-    key: 'client',
+    dataIndex: 'client_display',
+    key: 'client_display',
   },
   {
     key: 'actions',

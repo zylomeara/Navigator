@@ -24,15 +24,31 @@ function useAPITableData(deps: any[]) {
   let [result, setResult] = useState();
 
   useEffect(() => {
-    let request = axios.get('/api/task/')
-      .then((res) => {
-        setResult(res.data)
+    let requestTask = axios.get('/api/task/');
+    let requestTransportation = axios.get('/api/transportation/');
+    let requestCourier = axios.get('/account/courier/');
+    Promise.all([requestTask, requestTransportation, requestCourier])
+      .then(([requestTask, requestTransportation, requestCourier]) => {
+        let tasks = requestTask.data;
+        let transportations = requestTransportation.data;
+        let couriers = requestCourier.data;
+
+        tasks = tasks.map(task => {
+          let foundTransportation = transportations.find(transportation => transportation.id === task.transportation)
+          let foundCourier = couriers.find(courier => courier.id === task.courier)
+
+          task.transportation_display = `${foundTransportation.id}: ${foundTransportation.status ? 'Выполнен' : 'В процессе'}, ${foundTransportation.parcel}`
+          task.courier_display = `${foundCourier.id}: ${foundCourier.username} (${foundCourier.first_name} ${foundCourier.last_name})`
+
+          return task;
+        })
+        setResult(tasks);
       })
       .catch((error) => {
         setResult(error);
         message.error(error.message);
       });
-    setResult(request);
+    setResult(requestTask);
   }, [...deps]);
 
   return result;
@@ -63,13 +79,13 @@ const TaskManager = (props: any) => {
   },
   {
     title: 'Перевозка',
-    dataIndex: 'transportation',
-    key: 'transportation'
+    dataIndex: 'transportation_display',
+    key: 'transportation_display'
   },
   {
     title: 'Курьер',
-    dataIndex: 'courier',
-    key: 'courier',
+    dataIndex: 'courier_display',
+    key: 'courier_display',
   },
   {
     key: 'actions',

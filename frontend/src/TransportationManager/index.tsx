@@ -25,15 +25,27 @@ function useAPITableData(deps: any[]) {
   let [result, setResult] = useState();
 
   useEffect(() => {
-    let request = axios.get('/api/transportation/')
-      .then((res) => {
-        setResult(res.data)
+    let requestTransportation = axios.get('/api/transportation/');
+    let requestOrder = axios.get('/api/order/');
+    Promise.all([requestTransportation, requestOrder])
+      .then(([requestTransportation, requestOrder]) => {
+        let transportations = requestTransportation.data;
+        let orders = requestOrder.data;
+
+        transportations = transportations.map(transportation => {
+          let foundOrder = orders.find(order => transportation.order === order.id);
+
+          transportation.order_display = `${foundOrder.id}: ${foundOrder.status ? 'Выполнен' : 'В процессе'}`;
+
+          return transportation
+        });
+        setResult(transportations);
       })
       .catch((error) => {
         setResult(error);
         message.error(error.message);
       });
-    setResult(request);
+    setResult(requestTransportation);
   }, [...deps]);
 
   return result;
@@ -85,8 +97,8 @@ const TransportationManager = (props: any) => {
   },
   {
     title: 'Заказ',
-    dataIndex: 'order',
-    key: 'order',
+    dataIndex: 'order_display',
+    key: 'order_display',
   },
   {
     key: 'actions',
