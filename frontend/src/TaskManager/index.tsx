@@ -1,6 +1,6 @@
 import * as React from 'react';
 // import './style.less';
-import { Button, Divider, Icon, message, Popconfirm, Table, Tooltip } from 'antd';
+import { Button, Divider, Icon, message, Popconfirm, Table, Tooltip, Input } from 'antd';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import TaskForm from './TaskForm';
@@ -60,11 +60,14 @@ const TaskManager = (props: any) => {
   let [editItem, setEditItem] = useState<undefined | null | number>();
   let [loading, setLoading] = useState<boolean>(false);
 
+  let [searchText, setSearchText] = useState<string>('');
+
   const columns = [
   {
     title: 'Id',
     dataIndex: 'id',
     key: 'id',
+    ...getColumnSearchProps('id')
   },
   {
     title: 'Статус',
@@ -80,12 +83,14 @@ const TaskManager = (props: any) => {
   {
     title: 'Перевозка',
     dataIndex: 'transportation_display',
-    key: 'transportation_display'
+    key: 'transportation_display',
+    ...getColumnSearchProps('transportation_display')
   },
   {
     title: 'Курьер',
     dataIndex: 'courier_display',
     key: 'courier_display',
+    ...getColumnSearchProps('courier_display')
   },
   {
     key: 'actions',
@@ -112,6 +117,69 @@ const TaskManager = (props: any) => {
     }
   }
 ];
+
+  function handleSearch(selectedKeys, confirm) {
+    confirm();
+    setSearchText(selectedKeys[0]);
+  }
+
+  function handleReset(clearFilters) {
+    clearFilters();
+    setSearchText('');
+  }
+
+
+  function getColumnSearchProps(dataIndex) {
+    return ({
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            // ref={node => {
+            //   this.searchInput = node;
+            // }}
+            placeholder={`Search ${dataIndex}`}
+            value={selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => handleSearch(selectedKeys, confirm)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm)}
+            icon="search"
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            Search
+          </Button>
+          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+        </div>
+      ),
+      filterIcon: filtered => (
+        <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }}/>
+      ),
+      onFilter: (value, record) =>
+        record[dataIndex]
+          .toString()
+          .toLowerCase()
+          .includes(value.toLowerCase()),
+      // onFilterDropdownVisibleChange: visible => {
+      //   if (visible) {
+      //     setTimeout(() => this.searchInput.select());
+      //   }
+      // },
+      // render: text => (
+      //   <Highlighter
+      //     highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+      //     searchWords={[this.state.searchText]}
+      //     autoEscape
+      //     textToHighlight={text.toString()}
+      //   />
+      // ),
+    });
+  }
 
   function deleteItem(id: number) {
     setLoading(true);
