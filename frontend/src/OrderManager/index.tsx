@@ -159,10 +159,10 @@ const OrderManager = (props: any) => {
             size="small"
             style={{ width: 90, marginRight: 8 }}
           >
-            Search
+            Найти
           </Button>
           <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-            Reset
+            Сбросить
           </Button>
         </div>
       ),
