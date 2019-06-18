@@ -64,3 +64,52 @@ class AuthTest(APITestCase):
         )
 
         self.assertEqual(Manager.objects.get(username="manager").is_authenticated, True)
+
+class UserInfoTest(APITestCase):
+    def setUp(self):
+        Manager.objects.create(
+            pk=1,
+            first_name="asdf",
+            last_name="asdf",
+            password="qwerty321",
+            phone_number="123",
+            work_place="123",
+            username="manager",
+        )
+
+    def test_user_info(self):
+        response = client.get('/account/manager/1/')
+
+        self.assertEqual(response.data['id'], 1)
+        self.assertEqual(response.data['first_name'], "asdf")
+        self.assertEqual(response.data['last_name'], "asdf")
+        self.assertEqual(response.data['password'], "qwerty321")
+        self.assertEqual(response.data['phone_number'], "123")
+        self.assertEqual(response.data['work_place'], "123")
+        self.assertEqual(response.data['username'], "manager")
+
+class ListEmpTest(APITestCase):
+    def setUp(self):
+        Manager.objects.create(
+            pk=1,
+            first_name="asdf",
+            last_name="asdf",
+            password="qwerty321",
+            phone_number="123",
+            work_place="123",
+            username="manager",
+        )
+        Manager.objects.create(
+            pk=2,
+            first_name="asdf",
+            last_name="asdf",
+            password="qwerty321",
+            phone_number="123",
+            work_place="123",
+            username="manager2",
+        )
+
+    def test_user_list(self):
+        response = client.get('/account/manager/')
+
+        self.assertEqual(len(response.data), 2)
